@@ -5,6 +5,7 @@ Initializes the application with the configuration and constructs the
 RESTful API endpoints using the controllers.
 """
 from flask import Flask, jsonify, request
+from flask_praetorian import auth_required, current_user
 
 from .config import config, db, guard, cors
 from .models import User as UserModel
@@ -25,7 +26,7 @@ def create_app():
     db.init_app(application)
     cors.init_app(application)
 
-    return app
+    return application
 
 
 app = create_app()
@@ -56,6 +57,12 @@ def login():
     ret = {'access_token': guard.encode_jwt_token(user)}
 
     return jsonify(ret), 200
+
+
+@app.route("/current")
+@auth_required
+def current():
+    return jsonify(current_user().as_dict())
 
 
 @app.route("/refresh", methods=["POST"])

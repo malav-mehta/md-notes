@@ -18,3 +18,6 @@ class Image(db.Model):
 
     def __repr__(self):
         return "<Image: {}, user: {}, note: {}, src: {}>".format(self.id, self.user_id, self.note_id, self.src)
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
