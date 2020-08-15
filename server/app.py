@@ -39,7 +39,7 @@ def home():
     return "Hello"
 
 
-@app.route('/login')
+@app.route('/login', methods=["POST"])
 def login():
     """
     Logs a user in by parsing a POST request containing user
@@ -48,6 +48,8 @@ def login():
     example:
     $ curl http://localhost:5000/login -X POST \
       -d '{"username":"Walter","password":"calmerthanyouare"}'
+
+    :return: access token if authentication succeeds
     """
     req = request.get_json(force=True)
     username = req.get('username', None)
@@ -56,4 +58,16 @@ def login():
     user = guard.authenticate(username, password)
     ret = {'access_token': guard.encode_jwt_token(user)}
 
+    return jsonify(ret), 200
+
+
+@app.route("/refresh", methods=["POST"])
+def refresh():
+    """
+    Refreshes client token after expiry.
+
+    :return:
+    """
+    req = request.get_json(force=True)
+    ret = {'access_token': guard.refresh_jwt_token(req['token'])}
     return jsonify(ret), 200
