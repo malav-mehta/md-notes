@@ -3,10 +3,10 @@ models/folder.py
 
 Create a Folder table.
 """
-from . import db
+from server.config import db
 
 
-class Folder:
+class Folder(db.Model):
     # alias: folder
     __tablename__ = "folder"
 

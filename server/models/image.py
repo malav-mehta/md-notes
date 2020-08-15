@@ -3,7 +3,7 @@ models/image.py
 
 Create an Image model.
 """
-from . import db
+from server.config import db
 
 
 class Image(db.Model):
@@ -13,7 +13,7 @@ class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     note_id = db.Column(db.Integer, db.ForeignKey("note.id"))
-    src = db.column(db.String)
+    src = db.Column(db.String)
     delete_url = db.Column(db.String)
 
     def __repr__(self):

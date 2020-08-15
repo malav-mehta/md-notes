@@ -12,6 +12,8 @@ flask-sqlalchemy = "*"
 gunicorn = "*"
 passlib = "*"
 flask-restful = "*"
+flask-praetorian = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "2.7"

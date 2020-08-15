@@ -5,10 +5,10 @@ Create a Note table.
 """
 import datetime
 
-from . import db
+from server.config import db
 
 
-class Note(db.model):
+class Note(db.Model):
     # alias: note
     __tablename__ = "note"
 
@@ -39,6 +39,7 @@ class Note(db.model):
         text for the note.
 
         :param body: the new body of the note.
+        :return: None
         """
         self.content = body
         self.preview = body[:60]

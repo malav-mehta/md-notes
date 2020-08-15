@@ -4,9 +4,9 @@ models/user.py
 Create a User table.
 """
 import datetime
-from passlib.hash import sha256_crypt
 
-from . import db
+from server.config import db
+from server.config import guard
 
 
 class User(db.Model):
@@ -16,37 +16,58 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(60), index=True, unique=True)
     email = db.Column(db.String(60), index=True, unique=True)
-    password_hash = db.Column(db.String(256))
+    password = db.Column(db.String)
+    is_active = db.Column(db.Boolean, default=True, server_default='true')
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     last_login = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     open_folder_id = db.Column(db.Integer, db.ForeignKey("folder.id"), default=None)
     open_note_id = db.Column(db.Integer, db.ForeignKey("note.id"), default=None)
 
     @property
-    def password(self):
+    def rolenames(self):
         """
-        Prevent password from begin accessed.
-        """
-        raise AttributeError('password is not a readable attribute.')
+        Required for Flask-Praetorian
 
-    @password.setter
-    def password(self, password):
+        :return: None
         """
-        Set password to a hashed password.
+        return []
 
-        :param password: the new password.
+    @classmethod
+    def lookup(cls, username):
         """
-        self.password_hash = sha256_crypt.encrypt(password)
+        Looks up a user in the table.
 
-    def verify_password(self, password):
+        :param username: the looked-up user's username
+        :return: the user or None if the user wasn't found
         """
-        Check if hashed password matches inputted password.
+        return cls.query.filter_by(username=username).one_or_none()
 
-        :param password: the password to check.
-        :return: whether the passwords match (boolean)
+    @classmethod
+    def identify(cls, id):
         """
+        Returns a user based on the given id.
 
-        return sha256_crypt.verify(password, self.password_hash)
+        :param id: the id of the user
+        :return: the user with the given id
+        """
+        return cls.query.get(id)
+
+    @property
+    def identity(self):
+        """
+        Required for Flask-Praetorian.
+
+        :return: the id of the user
+        """
+        return self.id
+
+    def is_valid(self):
+        """
+        Required for Flask-Praetorian
+
+        :return: whether the user token is active
+        """
+        return self.is_active
 
     def __repr__(self):
         return "<User: {}, name: {}, email: {}".format(self.id, self.username, self.email)
