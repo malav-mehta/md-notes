@@ -4,13 +4,10 @@ app.py
 Initializes the application with the configuration and constructs the
 RESTful API endpoints using the controllers.
 """
-import os
-
 from flask import Flask, jsonify, request
-from flask_praetorian import auth_required
 
 from .config import config, db, guard, cors
-from .models import User
+from .models import User as UserModel
 
 
 def create_app():
@@ -21,12 +18,12 @@ def create_app():
 
     :return: None
     """
-    app = Flask(__name__)
-    app.config.from_object(config["development"])
+    application = Flask(__name__)
+    application.config.from_object(config["development"])
 
-    guard.init_app(app, User)
-    db.init_app(app)
-    cors.init_app(app)
+    guard.init_app(application, UserModel)
+    db.init_app(application)
+    cors.init_app(application)
 
     return app
 
@@ -47,7 +44,7 @@ def login():
 
     example:
     $ curl http://localhost:5000/login -X POST \
-      -d '{"username":"Walter","password":"calmerthanyouare"}'
+      -d '{"username":"user","password":"pwd"}'
 
     :return: access token if authentication succeeds
     """
@@ -66,7 +63,7 @@ def refresh():
     """
     Refreshes client token after expiry.
 
-    :return:
+    :return: a new client token
     """
     req = request.get_json(force=True)
     ret = {'access_token': guard.refresh_jwt_token(req['token'])}
