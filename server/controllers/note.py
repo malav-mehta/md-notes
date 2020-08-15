@@ -1,0 +1,22 @@
+"""
+controllers/note.py
+
+Controller for the Note model.
+"""
+from flask import jsonify, request
+from flask_praetorian import auth_required, current_user
+from flask_restful import Resource
+
+from server.config import db
+from server.models import Note as NoteModel
+
+
+class Note(Resource):
+    """
+    Create a controller for handling requests to the Folders
+    endpoint.
+
+    URI:     /folders
+    Methods: GET, POST
+    """
+    method_decorators = [auth_required]

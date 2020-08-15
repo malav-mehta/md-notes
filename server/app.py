@@ -7,8 +7,15 @@ RESTful API endpoints using the controllers.
 from flask import Flask, jsonify, request
 from flask_praetorian import auth_required, current_user
 
-from .config import config, db, guard, cors
+from .config import config
+from .config import api
+from .config import cors
+from .config import db
+from .config import guard
+
 from .models import User as UserModel
+
+from .controllers import Folders as FoldersController, Folder as FolderController
 
 
 def create_app():
@@ -25,6 +32,10 @@ def create_app():
     guard.init_app(application, UserModel)
     db.init_app(application)
     cors.init_app(application)
+
+    api.add_resource(FoldersController, "/folders")
+    api.add_resource(FolderController, "/folder/<int:folder_id>")
+    api.init_app(application)
 
     return application
 
