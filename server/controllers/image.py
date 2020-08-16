@@ -72,6 +72,34 @@ class Images(Resource):
             })
 
 
+class ImagesByNote(Resource):
+    """
+    Create a controller for handling requests to the Notes endpoint.
+
+    URI:     /notes/<int:folder_id>
+    Methods: GET, POST
+    """
+    method_decorators = [auth_required]
+
+    def get(self, note_id):
+        if NoteModel.query.filter_by(id=note_id, user_id=current_user().id).one_or_none():
+            images = [image.as_dict() for image in ImageModel.query.filter_by(note_id=note_id).all()]
+
+            return jsonify({
+                "data": images,
+                "error": None,
+                "message": "OK",
+                "status_code": 200,
+            })
+
+        return jsonify({
+            "data": None,
+            "error": "NotFoundError",
+            "message": "Resource not found.",
+            "status_code": 404,
+        })
+
+
 class Image(Resource):
     """
     Create a controller for handling requests to the Image endpoint.

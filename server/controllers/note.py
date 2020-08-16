@@ -79,11 +79,11 @@ class Notes(Resource):
 
 class NotesByFolder(Resource):
     """
-        Create a controller for handling requests to the Notes endpoint.
+    Create a controller for handling requests to the Notes endpoint.
 
-        URI:     /notes/<int:folder_id>
-        Methods: GET, POST
-        """
+    URI:     /notes/<int:folder_id>
+    Methods: GET, POST
+    """
     method_decorators = [auth_required]
 
     def get(self, folder_id):
