@@ -52,7 +52,7 @@ class Folders(Resource):
             })
 
         else:
-            folder = Folder(name=name)
+            folder = FolderModel(name=name, user_id=current_user().id)
             db.session.add(folder)
             db.session.commit()
 
