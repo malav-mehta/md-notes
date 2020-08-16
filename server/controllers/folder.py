@@ -10,6 +10,8 @@ from flask_restful import Resource
 from server.config import db
 
 from server.models import Folder as FolderModel
+from server.models import Image as ImageModel
+from server.models import Note as NoteModel
 
 
 class Folders(Resource):
@@ -139,6 +141,12 @@ class Folder(Resource):
         folder = FolderModel.query.filter_by(id=folder_id, user_id=current_user().id).one_or_none()
 
         if folder:
+            notes = NoteModel.query.filter_by(folder_id=folder.id).all()
+
+            for note in notes:
+                ImageModel.query.filter_by(note_id=note.id).delete()
+                db.session.delete(note)
+
             db.session.delete(folder)
             db.session.commit()
 
