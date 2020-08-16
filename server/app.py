@@ -17,6 +17,7 @@ from .models import User as UserModel
 
 from .controllers import Folders as FoldersController, Folder as FolderController
 from .controllers import Images as ImagesController, Image as ImageController
+from .controllers import Notes as NotesController, NotesByFolder as NotesByFolderController, Note as NoteController
 
 
 def create_app():
@@ -39,6 +40,10 @@ def create_app():
 
     api.add_resource(ImagesController, "/images")
     api.add_resource(ImageController, "/image/<int:image_id>")
+
+    api.add_resource(NotesController, "/notes")
+    api.add_resource(NotesByFolderController, "/notes/<int:folder_id>")
+    api.add_resource(NoteController, "/note/<int:image_id>")
 
     api.init_app(application)
     return application
