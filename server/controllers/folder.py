@@ -8,6 +8,7 @@ from flask_praetorian import auth_required, current_user
 from flask_restful import Resource
 
 from server.config import db
+
 from server.models import Folder as FolderModel
 
 

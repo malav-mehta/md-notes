@@ -16,6 +16,7 @@ from .config import guard
 from .models import User as UserModel
 
 from .controllers import Folders as FoldersController, Folder as FolderController
+from .controllers import Images as ImagesController, Image as ImageController
 
 
 def create_app():
@@ -35,8 +36,11 @@ def create_app():
 
     api.add_resource(FoldersController, "/folders")
     api.add_resource(FolderController, "/folder/<int:folder_id>")
-    api.init_app(application)
 
+    api.add_resource(ImagesController, "/images")
+    api.add_resource(ImageController, "/image/<int:image_id>")
+
+    api.init_app(application)
     return application
 
 
