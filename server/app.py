@@ -60,11 +60,6 @@ def create_app():
 app = create_app()
 
 
-@app.route("/")
-def home():
-    return "Hello"
-
-
 @app.route("/login", methods=["POST"])
 def login():
     """
@@ -96,12 +91,6 @@ def login():
     }
 
     return jsonify(ret), 200
-
-
-@app.route("/current")
-@auth_required
-def current():
-    return jsonify(current_user().as_dict())
 
 
 @app.route("/refresh", methods=["POST"])
