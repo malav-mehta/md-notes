@@ -19,8 +19,7 @@ from .models import User as UserModel
 
 from .controllers import Folders as FoldersController, Folder as FolderController
 from .controllers import Images as ImagesController, ImagesByNote as ImagesByNoteController, Image as ImageController
-from .controllers import Notes as NotesController, NotesByFolder as NotesByFolderController, NotesInTrash as Trash, \
-    Note as NoteController
+from .controllers import Notes as NotesController, NotesByFolder as NotesByFolderController, NotesInTrash as Trash, Note as NoteController
 from .controllers import Users as UsersController, User as UserController
 
 

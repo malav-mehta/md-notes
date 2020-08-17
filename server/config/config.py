@@ -18,7 +18,8 @@ class Config(object):
 
     SECRET_KEY = os.urandom(32)
 
-    SQLALCHEMY_DATABASE_URI = "sqlite:///{}".format(os.path.join(project_dir, "dev.db"))
+    SQLALCHEMY_DATABASE_URI = "sqlite:///{}".format(
+        os.path.join(project_dir, "dev.db"))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 

@@ -25,7 +25,8 @@ class Images(Resource):
     method_decorators = [auth_required]
 
     def get(self):
-        images = [image.as_dict() for image in ImageModel.query.filter_by(user_id=current_user().id).all()]
+        images = [image.as_dict() for image in ImageModel.query.filter_by(
+            user_id=current_user().id).all()]
 
         return jsonify({
             "data": images,
@@ -60,7 +61,8 @@ class Images(Resource):
             })
 
         else:
-            image = ImageModel(user_id=current_user().id, note_id=note_id, src=src, delete_url=delete_url)
+            image = ImageModel(user_id=current_user().id,
+                               note_id=note_id, src=src, delete_url=delete_url)
             db.session.add(image)
             db.session.commit()
 
@@ -83,7 +85,8 @@ class ImagesByNote(Resource):
 
     def get(self, note_id):
         if NoteModel.query.filter_by(id=note_id, user_id=current_user().id).one_or_none():
-            images = [image.as_dict() for image in ImageModel.query.filter_by(note_id=note_id).all()]
+            images = [image.as_dict()
+                      for image in ImageModel.query.filter_by(note_id=note_id).all()]
 
             return jsonify({
                 "data": images,
@@ -110,7 +113,8 @@ class Image(Resource):
     method_decorators = [auth_required]
 
     def get(self, image_id):
-        image = ImageModel.query.filter_by(id=image_id, user_id=current_user().id).one_or_none()
+        image = ImageModel.query.filter_by(
+            id=image_id, user_id=current_user().id).one_or_none()
 
         if image:
             return jsonify({
@@ -129,7 +133,8 @@ class Image(Resource):
             })
 
     def put(self, image_id):
-        image = ImageModel.query.filter_by(id=image_id, user_id=current_user().id).one_or_none()
+        image = ImageModel.query.filter_by(
+            id=image_id, user_id=current_user().id).one_or_none()
 
         if image:
             payload = request.get_json(force=True)
@@ -178,7 +183,8 @@ class Image(Resource):
             })
 
     def delete(self, image_id):
-        image = ImageModel.query.filter_by(id=image_id, user_id=current_user().id).one_or_none()
+        image = ImageModel.query.filter_by(
+            id=image_id, user_id=current_user().id).one_or_none()
 
         if image:
             db.session.delete(image)

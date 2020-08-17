@@ -28,7 +28,8 @@ class Notes(Resource):
     method_decorators = [auth_required]
 
     def get(self):
-        notes = [note.as_dict() for note in NoteModel.query.filter_by(user_id=current_user().id, in_trash=False).all()]
+        notes = [note.as_dict() for note in NoteModel.query.filter_by(
+            user_id=current_user().id, in_trash=False).all()]
 
         for note in notes:
             del note["content"]
@@ -70,7 +71,8 @@ class Notes(Resource):
             })
 
         else:
-            note = NoteModel(user_id=current_user().id, folder_id=folder_id, title=title, body=body)
+            note = NoteModel(user_id=current_user().id,
+                             folder_id=folder_id, title=title, body=body)
             db.session.add(note)
             db.session.commit()
 
@@ -125,7 +127,8 @@ class NotesInTrash(Resource):
     method_decorators = [auth_required]
 
     def get(self):
-        notes = [note.as_dict() for note in NoteModel.query(user_id=current_user().id, in_trash=True).all()]
+        notes = [note.as_dict() for note in NoteModel.query.filter_by(
+            user_id=current_user().id, in_trash=True).all()]
 
         for note in notes:
             del note["content"]
@@ -148,7 +151,8 @@ class Note(Resource):
     method_decorators = [auth_required]
 
     def get(self, note_id):
-        note = NoteModel.query.filter_by(id=note_id, user_id=current_user().id).one_or_none()
+        note = NoteModel.query.filter_by(
+            id=note_id, user_id=current_user().id).one_or_none()
 
         if note:
             return jsonify({
@@ -167,14 +171,15 @@ class Note(Resource):
             })
 
     def put(self, note_id):
-        note = NoteModel.query.filter_by(id=note_id, user_id=current_user().id).one_or_none()
+        note = NoteModel.query.filter_by(
+            id=note_id, user_id=current_user().id).one_or_none()
 
         if note:
             payload = request.get_json(force=True)
             errors = {}
 
             folder_id = payload.get("folder_id", None)
-            in_trash = payload.get("note_id", None)
+            in_trash = payload.get("in_trash", None)
             title = payload.get("title", None)
             body = payload.get("body", None)
 
@@ -218,7 +223,8 @@ class Note(Resource):
             })
 
     def delete(self, note_id):
-        note = NoteModel.query.filter_by(id=note_id, user_id=current_user().id).one_or_none()
+        note = NoteModel.query.filter_by(
+            id=note_id, user_id=current_user().id).one_or_none()
 
         if note:
             ImageModel.query.filter_by(note_id=note.id).delete()

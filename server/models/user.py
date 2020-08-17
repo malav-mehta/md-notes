@@ -19,8 +19,10 @@ class User(db.Model):
     is_active = db.Column(db.Boolean, default=True, server_default='true')
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     last_login = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    open_folder_id = db.Column(db.Integer, db.ForeignKey("folder.id"), default=None)
-    open_note_id = db.Column(db.Integer, db.ForeignKey("note.id"), default=None)
+    open_folder_id = db.Column(
+        db.Integer, db.ForeignKey("folder.id"), default=None)
+    open_note_id = db.Column(
+        db.Integer, db.ForeignKey("note.id"), default=None)
 
     @property
     def rolenames(self):

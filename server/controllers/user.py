@@ -64,7 +64,8 @@ class Users(Resource):
                 "status_code": 400,
             })
 
-        user = UserModel(username=username, email=email, password=guard.hash_password(password))
+        user = UserModel(username=username, email=email,
+                         password=guard.hash_password(password))
         db.session.add(user)
         db.session.commit()
 

@@ -25,7 +25,8 @@ class Folders(Resource):
     method_decorators = [auth_required]
 
     def get(self):
-        folders = [folder.as_dict() for folder in FolderModel.query.filter_by(user_id=current_user().id).all()]
+        folders = [folder.as_dict() for folder in FolderModel.query.filter_by(
+            user_id=current_user().id).all()]
 
         return jsonify({
             "data": folders,
@@ -77,7 +78,8 @@ class Folder(Resource):
     method_decorators = [auth_required]
 
     def get(self, folder_id):
-        folder = FolderModel.query.filter_by(id=folder_id, user_id=current_user().id).one_or_none()
+        folder = FolderModel.query.filter_by(
+            id=folder_id, user_id=current_user().id).one_or_none()
 
         if folder:
             return jsonify({
@@ -96,14 +98,15 @@ class Folder(Resource):
             })
 
     def put(self, folder_id):
-        folder = FolderModel.query.filter_by(id=folder_id, user_id=current_user().id).one_or_none()
+        folder = FolderModel.query.filter_by(
+            id=folder_id, user_id=current_user().id).one_or_none()
 
         if folder:
             payload = request.get_json(force=True)
             errors = {}
 
             name = payload.get("name", None)
-            
+
             if not name:
                 errors["name"] = "The new folder name is a required argument."
 
@@ -138,7 +141,8 @@ class Folder(Resource):
             })
 
     def delete(self, folder_id):
-        folder = FolderModel.query.filter_by(id=folder_id, user_id=current_user().id).one_or_none()
+        folder = FolderModel.query.filter_by(
+            id=folder_id, user_id=current_user().id).one_or_none()
 
         if folder:
             notes = NoteModel.query.filter_by(folder_id=folder.id).all()
