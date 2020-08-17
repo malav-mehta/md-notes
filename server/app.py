@@ -19,6 +19,7 @@ from .controllers import Folders as FoldersController, Folder as FolderControlle
 from .controllers import Images as ImagesController, ImagesByNote as ImagesByNoteController, Image as ImageController
 from .controllers import Notes as NotesController, NotesByFolder as NotesByFolderController, NotesInTrash as Trash, \
     Note as NoteController
+from .controllers import Users as UsersController, User as UserController
 
 
 def create_app():
@@ -48,6 +49,9 @@ def create_app():
     api.add_resource(NotesByFolderController, "/notes/<int:folder_id>")
     api.add_resource(NoteController, "/note/<int:note_id>")
 
+    api.add_resource(UsersController, "/users")
+    api.add_resource(UserController, "/user")
+
     api.init_app(application)
     return application
 
@@ -60,7 +64,7 @@ def home():
     return "Hello"
 
 
-@app.route('/login', methods=["POST"])
+@app.route("/login", methods=["POST"])
 def login():
     """
     Logs a user in by parsing a POST request containing user
@@ -68,16 +72,24 @@ def login():
 
     example:
     $ curl http://localhost:5000/login -X POST \
-      -d '{"username":"user","password":"pwd"}'
+      -d "{"username":"user","password":"pwd"}"
 
     :return: access token if authentication succeeds
     """
     req = request.get_json(force=True)
-    username = req.get('username', None)
-    password = req.get('password', None)
+    username = req.get("username", None)
+    password = req.get("password", None)
 
     user = guard.authenticate(username, password)
-    ret = {'access_token': guard.encode_jwt_token(user)}
+    ret = {
+        "data": {
+            "access_token": guard.encode_jwt_token(user),
+            "user": user.as_dict()
+        },
+        "error": None,
+        "message": "OK",
+        "status_code": 200,
+    }
 
     return jsonify(ret), 200
 
@@ -96,5 +108,5 @@ def refresh():
     :return: a new client token
     """
     req = request.get_json(force=True)
-    ret = {'access_token': guard.refresh_jwt_token(req['token'])}
+    ret = {"access_token": guard.refresh_jwt_token(req["token"])}
     return jsonify(ret), 200

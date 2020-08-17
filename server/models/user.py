@@ -70,7 +70,9 @@ class User(db.Model):
         return self.is_active
 
     def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        user = {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        del user['password']
+        return user
 
     def __repr__(self):
         return "<User: {}, name: {}, email: {}>".format(self.id, self.username, self.email)
