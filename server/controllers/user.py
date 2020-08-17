@@ -3,7 +3,6 @@ controllers/user.py
 
 Controller for the User model.
 """
-import datetime
 import re
 
 from flask import jsonify, request
@@ -13,11 +12,7 @@ from flask_restful import Resource
 from server.config import db
 from server.config import guard
 
-from server.models import Folder as FolderModel
-from server.models import Note as NoteModel
 from server.models import User as UserModel
-
-from server.util import is_int
 
 
 class Users(Resource):

@@ -4,6 +4,8 @@ app.py
 Initializes the application with the configuration and constructs the
 RESTful API endpoints using the controllers.
 """
+import datetime
+
 from flask import Flask, jsonify, request
 from flask_praetorian import auth_required, current_user
 
@@ -81,6 +83,9 @@ def login():
     password = req.get("password", None)
 
     user = guard.authenticate(username, password)
+    user.last_login = datetime.datetime.utcnow()
+    db.session.commit()
+
     ret = {
         "data": {
             "access_token": guard.encode_jwt_token(user),

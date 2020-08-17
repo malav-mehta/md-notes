@@ -6,7 +6,6 @@ Create a User table.
 import datetime
 
 from server.config import db
-from server.config import guard
 
 
 class User(db.Model):
