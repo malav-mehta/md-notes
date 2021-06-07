@@ -1,54 +1,37 @@
-# MD Notes
+# md-notes
 
-MD Notes is an online notes application. I created this application
-for my own use, since I wasn't able to find any apps that fulfilled
-my needs. MD Notes is a fully-online editor which allows creating
-markdown flavored notes that support syntax highlighting as well as
-the ability to render math in the LATEX format.
+## About
 
-## Getting Started
+The complete Flask-based backend of a RESTful API for a markdown notes application. Implemented authentication on the API with JWT and used SQLAlchemy as the ORM. The server is deployed to Heroku.
 
-The backend of this application consists of an SQLite database
-managed by a Flask server hosted by Heroku. The backend server
-consists of a RESTful API called by the React frontend hosted by
-Netlify.  
+## Running locally
 
-### Dependencies
+First, clone the repo:
 
-The dependencies of the backend are managed with `pipenv` (for the
-Flask backend) and `npm` (for the React frontend).
-
-Install `pipenv`:
+```shell
+$ git clone https://github.com/malav-mehta/md-notes.git
+$ cd md-notes
 ```
+
+Then, install the `pipenv`:
+
+```shell
 $ pip install pipenv
 ```
 
-Installing dependencies:
-```
+Next, install all dependencies and get it running:
+
+```shell
 $ pipenv install
-```
-```
-$ npm install
-```
-
-### Running the application
-
-Get the Flask server to listen for requests on port 5000 by running:
-
-```
 $ flask run
-``` 
-
-And run a development version of the website with:
-```
-$ npm start
 ```
 
-Then open your browser to [localhost:3000](http://localhost:3000).
+Finall, you can begin sending requests to [localhost:5000](http://localhost:5000).
 
-## Built With
+## Tech stack
 
-* [Flask](https://flask.palletsprojects.com/en/1.1.x/) - web application framework
-* [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/) - creating RESTful API with flask
-* [SQLAlchemy](https://www.sqlalchemy.org/) - ORM for Python applications
-* [React](https://reactjs.org/) - the UI for the web application
+- [Flask](https://flask.palletsprojects.com/en/2.0.x/)
+- [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/)
+- [SQLAlchemy](https://www.sqlalchemy.org/)
+
+If you find any bugs or have any questions, email me: [malavhmehta@outlook.com](mailto:malavhmehta@outlook.com).
